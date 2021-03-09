@@ -1,0 +1,7 @@
+{
+  "env": {
+    "DB_USER": "v_snaichuk",
+    "DB_PASSWORD": "yoWeiiGFl3fRsA45",
+    "DB_NAME": "rn-shop-dev"
+  }
+}
