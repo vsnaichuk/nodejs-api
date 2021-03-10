@@ -8,6 +8,8 @@ const productsControllers = require('../controllers/products');
 
 const router = express.Router();
 
+router.get('/', productsControllers.getProducts);
+
 router.post(
   '/',
   // fileUpload.single('image'),
