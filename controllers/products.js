@@ -8,7 +8,7 @@ const createProduct = asyncHandler(async (req, res, next) => {
   const createdProduct = new Product({
     title,
     description,
-    image: imageUrl,
+    imageUrl,
     price,
   });
 
@@ -21,14 +21,10 @@ const createProduct = asyncHandler(async (req, res, next) => {
 });
 
 const getProducts = asyncHandler(async (req, res, next) => {
-
   const products = await Product.find({});
 
   if (!products || products.length === 0) {
-    throw new HttpError(
-      'Could not find products',
-      404,
-    );
+    throw new HttpError('Could not find products', 404);
   }
 
   res.status(201).json({
@@ -36,5 +32,25 @@ const getProducts = asyncHandler(async (req, res, next) => {
   });
 });
 
+const updateProduct = asyncHandler(async (req, res, next) => {
+  const { id } = req.params;
+  console.log(req.params);
+  const { title, description, imageUrl } = req.body;
+
+  const product = await Product.findById(id);
+
+  product.title = title;
+  product.description = description;
+  product.imageUrl = imageUrl;
+
+  await product.save();
+
+  res.status(200).json({
+    product: product.toObject({ getters: true }),
+    message: 'Successfully updated',
+  });
+});
+
 exports.createProduct = createProduct;
 exports.getProducts = getProducts;
+exports.updateProduct = updateProduct;
