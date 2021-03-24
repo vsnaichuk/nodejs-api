@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const asyncHandler = require('../util/async-handler');
 const Product = require('../models/Product');
 const HttpError = require('../models/http-error');
@@ -34,10 +35,16 @@ const getProducts = asyncHandler(async (req, res, next) => {
 
 const updateProduct = asyncHandler(async (req, res, next) => {
   const { id } = req.params;
-  console.log(req.params);
   const { title, description, imageUrl } = req.body;
 
   const product = await Product.findById(id);
+
+  if (!product) {
+    throw new HttpError(
+      'Could not find product for the provided id',
+      404,
+    );
+  }
 
   product.title = title;
   product.description = description;
@@ -51,6 +58,40 @@ const updateProduct = asyncHandler(async (req, res, next) => {
   });
 });
 
+const deleteProduct = asyncHandler(async (req, res, next) => {
+  const { id } = req.params;
+
+  const product = await Product.findById(id);
+
+  if (!product) {
+    throw new HttpError(
+      'Could not find product for the provided id',
+      404,
+    );
+  }
+
+  try {
+    const sess = await mongoose.startSession();
+    sess.startTransaction();
+
+    await product.deleteOne({ session: sess });
+
+    await sess.commitTransaction();
+  } catch (err) {
+    return next(
+      new HttpError(
+        'Something went wrong, deleting Product failed, please try again later',
+        500,
+      ),
+    );
+  }
+
+  res.status(200).json({
+    message: 'Successfully deleted',
+  });
+});
+
 exports.createProduct = createProduct;
 exports.getProducts = getProducts;
 exports.updateProduct = updateProduct;
+exports.deleteProduct = deleteProduct;

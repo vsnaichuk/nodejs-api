@@ -26,4 +26,6 @@ router.patch(
   productsControllers.updateProduct,
 );
 
+router.delete('/:id', productsControllers.deleteProduct);
+
 module.exports = router;
