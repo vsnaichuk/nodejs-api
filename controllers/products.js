@@ -17,7 +17,7 @@ const createProduct = asyncHandler(async (req, res, next) => {
 
   res.status(201).json({
     product: createdProduct.toObject({ getters: true }),
-    message: 'Successfully created new product',
+    message: 'Successfully added a new product',
   });
 });
 
