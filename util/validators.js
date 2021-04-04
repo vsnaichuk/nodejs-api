@@ -18,6 +18,13 @@ const updateProductValidationRules = () => {
   ];
 };
 
+const createOrderValidationRules = () => {
+  return [
+    body('orderItems').not().isEmpty(),
+    body('totalAmount').isNumeric(),
+  ];
+};
+
 const validate = (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -30,5 +37,6 @@ const validate = (req, res, next) => {
 module.exports = {
   createProductValidationRules,
   updateProductValidationRules,
+  createOrderValidationRules,
   validate,
 };

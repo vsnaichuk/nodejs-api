@@ -4,6 +4,7 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 
 const productsRoutes = require('./routes/products');
+const ordersRoutes = require('./routes/orders');
 
 const HttpError = require('./models/http-error');
 
@@ -22,6 +23,7 @@ app.use(cors(corsOpt));
 app.options('*', cors(corsOpt));
 
 app.use('/api/products', productsRoutes);
+app.use('/api/orders', ordersRoutes);
 
 app.use((req, res, next) => {
   throw new HttpError('Could not find this route!', 404);
