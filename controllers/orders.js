@@ -20,4 +20,17 @@ const createOrder = asyncHandler(async (req, res, next) => {
   });
 });
 
+const getOrders = asyncHandler(async (req, res, next) => {
+  const orders = await Order.find({});
+
+  if (!orders || orders.length === 0) {
+    throw new HttpError('Could not find orders', 404);
+  }
+
+  res.status(201).json({
+    orders: orders.map((p) => p.toObject({ getters: true })),
+  });
+});
+
 exports.createOrder = createOrder;
+exports.getOrders = getOrders;

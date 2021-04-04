@@ -8,6 +8,8 @@ const ordersControllers = require('../controllers/orders');
 
 const router = express.Router();
 
+router.get('/', ordersControllers.getOrders);
+
 router.post(
   '/',
   createOrderValidationRules(),
