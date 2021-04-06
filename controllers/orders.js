@@ -27,7 +27,7 @@ const getOrders = asyncHandler(async (req, res, next) => {
     throw new HttpError('Could not find orders', 404);
   }
 
-  res.status(201).json({
+  res.status(200).json({
     orders: orders.map((p) => p.toObject({ getters: true })),
   });
 });

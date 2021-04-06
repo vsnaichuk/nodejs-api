@@ -28,7 +28,7 @@ const getProducts = asyncHandler(async (req, res, next) => {
     throw new HttpError('Could not find products', 404);
   }
 
-  res.status(201).json({
+  res.status(200).json({
     products: products.map((p) => p.toObject({ getters: true })),
   });
 });

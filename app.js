@@ -2,14 +2,12 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const mongoose = require('mongoose');
-
 const productsRoutes = require('./routes/products');
 const ordersRoutes = require('./routes/orders');
-
+const authRoutes = require('./routes/auth');
 const HttpError = require('./models/http-error');
 
 const app = express();
-
 app.use(bodyParser.json());
 
 const PORT = process.env.PORT || 5000;
@@ -24,6 +22,7 @@ app.options('*', cors(corsOpt));
 
 app.use('/api/products', productsRoutes);
 app.use('/api/orders', ordersRoutes);
+app.use('/api/auth', authRoutes);
 
 app.use((req, res, next) => {
   throw new HttpError('Could not find this route!', 404);
