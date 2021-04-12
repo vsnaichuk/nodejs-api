@@ -19,8 +19,7 @@ const loginValidationRules = () => {
 const createProductValidationRules = () => {
   return [
     body('title').isLength({ min: 5 }),
-    body('description').isLength({ min: 10 }),
-    body('imageUrl').not().isEmpty(),
+    body('descr').isLength({ min: 10 }),
     body('price').isNumeric(),
   ];
 };
@@ -28,8 +27,7 @@ const createProductValidationRules = () => {
 const updateProductValidationRules = () => {
   return [
     body('title').isLength({ min: 5 }),
-    body('description').isLength({ min: 10 }),
-    body('imageUrl').not().isEmpty(),
+    body('descr').isLength({ min: 10 }),
   ];
 };
 

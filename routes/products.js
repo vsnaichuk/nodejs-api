@@ -6,6 +6,7 @@ const {
   validate,
 } = require('../util/validators');
 const productsControllers = require('../controllers/products');
+const fileUpload = require('../middleware/file-upload');
 
 const router = express.Router();
 
@@ -13,7 +14,7 @@ router.get('/', productsControllers.getProducts);
 
 router.post(
   '/',
-  // fileUpload.single('image'),
+  fileUpload.single('image'),
   createProductValidationRules(),
   validate,
   productsControllers.createProduct,
@@ -21,6 +22,7 @@ router.post(
 
 router.patch(
   '/:id',
+  fileUpload.single('image'),
   updateProductValidationRules(),
   validate,
   productsControllers.updateProduct,

@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const path = require('path');
 const mongoose = require('mongoose');
 const productsRoutes = require('./routes/products');
 const ordersRoutes = require('./routes/orders');
@@ -8,17 +9,21 @@ const authRoutes = require('./routes/auth');
 const HttpError = require('./models/http-error');
 
 const app = express();
-app.use(bodyParser.json());
-
 const PORT = process.env.PORT || 5000;
-
 const corsOpt = {
   origin: process.env.CORS_ALLOW_ORIGIN || '*',
   methods: ['GET', 'PUT', 'PATCH', 'POST', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
 };
+
+app.use(bodyParser.json());
 app.use(cors(corsOpt));
 app.options('*', cors(corsOpt));
+
+app.use(
+  '/uploads/images',
+  express.static(path.join('uploads', 'images')),
+);
 
 app.use('/api/products', productsRoutes);
 app.use('/api/orders', ordersRoutes);

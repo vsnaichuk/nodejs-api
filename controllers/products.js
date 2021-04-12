@@ -4,12 +4,14 @@ const Product = require('../models/Product');
 const HttpError = require('../models/http-error');
 
 const createProduct = asyncHandler(async (req, res, next) => {
-  const { title, description, imageUrl, price } = req.body;
+  console.log(req.file);
+
+  const { title, descr, price } = req.body;
 
   const createdProduct = new Product({
     title,
-    description,
-    imageUrl,
+    descr,
+    image: req.file.path,
     price,
   });
 
@@ -35,7 +37,7 @@ const getProducts = asyncHandler(async (req, res, next) => {
 
 const updateProduct = asyncHandler(async (req, res, next) => {
   const { id } = req.params;
-  const { title, description, imageUrl } = req.body;
+  const { title, descr } = req.body;
 
   const product = await Product.findById(id);
 
@@ -47,8 +49,8 @@ const updateProduct = asyncHandler(async (req, res, next) => {
   }
 
   product.title = title;
-  product.description = description;
-  product.imageUrl = imageUrl;
+  product.descr = descr;
+  product.image = req.file.path;
 
   await product.save();
 
